@@ -5,5 +5,6 @@ version = '1.0.0'
 git = 'https://github.com/aptos-labs/aptos-core.git'
 rev = 'main'
 subdir = 'aptos-move/framework/aptos-framework'
+
 [addresses]
-todolist_addr='_'
+OnchainPoems='b8a2605c87339f77a5565fcac3fc705298fbecc6bf9f8924c4594ff40fc9244c'

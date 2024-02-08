@@ -16,6 +16,23 @@ function App() {
   const poemTitle = useRef<HTMLInputElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
+  async function newPoemList() {
+    const transaction: InputTransactionData = {
+      data: {
+        function:`${ONCHAIN_POEMS}::onchain_poems_with_table::create_poem_list`,
+        functionArguments:[]
+      }
+    }
+    try {
+      // sign and submit transaction to chain
+      const response = await signAndSubmitTransaction(transaction);
+      // wait for transaction
+      await aptos.waitForTransaction({transactionHash:response.hash});
+    } catch (error: any) {
+      console.log("Error:", error)
+    }
+  }
+
   async function registerPoem() {
     if (textAreaRef.current !== null && poemAuthor.current !== null && poemTitle.current !== null) { 
       const author = poemAuthor.current.value;
@@ -76,6 +93,11 @@ function App() {
         <div className="row">
           <button onClick={registerPoem}>Register Poem</button>
         </div>
+
+        <div className="row">
+          <button onClick={newPoemList}>Create Poem List</button>
+        </div>
+
       </div>
     </>
   );

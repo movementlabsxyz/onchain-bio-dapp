@@ -3,23 +3,21 @@ module OnchainPoems::onchain_poems {
   use std::string::{Self, String};
   use std::signer;
 
-  struct Inscription has key, store {
+  struct Inscription has key, store, drop {
       poem: String,
       title: String,
       author: String
   }
 
-  const ERROR1:u64 = 1;
+  const E_ALREADY_HAS:u64 = 1;
 
   public entry fun register (account: &signer, poem: String, title: String, author: String) {
-    let owner = signer::address_of(account);
-    let exists = exists<Inscription>(owner);
-    assert!(!exists, ERROR1);
-    move_to<Inscription>(account, Inscription {
+    let inscription = Inscription {
       poem: poem,
       title: title,
       author: author
-    });
+    };
+    move_to<Inscription>(account, inscription);
   }
 
   #[view]

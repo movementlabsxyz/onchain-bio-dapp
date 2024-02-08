@@ -1,18 +1,20 @@
 module OnchainPoems::onchain_poems {
 
-   use std::string::{Self, String};
-   use std::signer;
+  use std::string::{Self, String};
+  use std::signer;
 
-    struct Inscription has key, store {
-        poem: String,
-        title: String,
-        author: String
-    }
+  struct Inscription has key, store {
+      poem: String,
+      title: String,
+      author: String
+  }
+
+  const ERROR1:u64 = 1;
 
   public entry fun register (account: &signer, poem: String, title: String, author: String) {
     let owner = signer::address_of(account);
     let exists = exists<Inscription>(owner);
-    assert!(!exists, 0);
+    assert!(!exists, ERROR1);
     move_to<Inscription>(account, Inscription {
       poem: poem,
       title: title,

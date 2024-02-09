@@ -1,4 +1,4 @@
-module OnchainPoems::onchain_poems_with_table {
+module OnchainBio::onchain_poems_with_table {
   use aptos_framework::account;
   use std::signer;
   use std::string::String;

@@ -3,51 +3,33 @@ import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
 import { useRef } from "react";
 import { useWallet, InputTransactionData } from '@aptos-labs/wallet-adapter-react';
 import { Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
-import { ONCHAIN_POEMS } from "./constants";
+import { ONCHAIN_BIO } from "./constants";
 import './index.css';
 
 // with custom configuration
-const aptosConfig = new AptosConfig({ network: Network.DEVNET });
+const aptosConfig = new AptosConfig({ network: Network.TESTNET });
 const aptos = new Aptos(aptosConfig);
 
 function App() {
-  const { account, signAndSubmitTransaction } = useWallet();
-  const poemAuthor = useRef<HTMLInputElement>(null);
-  const poemTitle = useRef<HTMLInputElement>(null);
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const { signAndSubmitTransaction } = useWallet();
+  const name = useRef<HTMLInputElement>(null);
+  const bio = useRef<HTMLTextAreaElement>(null);
 
-  async function newPoemList() {
-    const transaction: InputTransactionData = {
-      data: {
-        function:`${ONCHAIN_POEMS}::onchain_poems_with_table::create_poem_list`,
-        functionArguments:[]
-      }
-    }
-    try {
-      // sign and submit transaction to chain
-      const response = await signAndSubmitTransaction(transaction);
-      // wait for transaction
-      await aptos.waitForTransaction({transactionHash:response.hash});
-    } catch (error: any) {
-      console.log("Error:", error)
-    }
-  }
-
-  async function registerPoem() {
-    if (textAreaRef.current !== null && poemAuthor.current !== null && poemTitle.current !== null) { 
-      const author = poemAuthor.current.value;
-      const title = poemTitle.current.value;
-      const text = textAreaRef.current.value;
+  async function registerBio() {
+    if (bio.current !== null && name.current !== null) { 
+      const onchainName = name.current.value;
+      const onchainBio = bio.current.value;
       const transaction: InputTransactionData = {
         data: {
-          function:`${ONCHAIN_POEMS}::onchain_poems::register`,
-          functionArguments:[text, title, author]
+          function:`${ONCHAIN_BIO}::onchain_bio::register`,
+          functionArguments:[onchainName, onchainBio]
         }
       }
       try {
         // sign and submit transaction to chain
         const response = await signAndSubmitTransaction(transaction);
         // wait for transaction
+        console.log(response)
         await aptos.waitForTransaction({transactionHash:response.hash});
       } catch (error: any) {
         console.log("Error:", error)
@@ -58,44 +40,34 @@ function App() {
   return (
     <>
       <div className="navbar">
-        <div className="navbar-text">Create Aptos Dapp</div>
+        <div className="navbar-text">Your Onchain Bio</div>
         <div>
           <WalletSelector />
         </div>
       </div>
       <div className="center-container">
-      <div className="row">
-          <h1>Poems that Move You</h1>
-        </div>
-
-        <div className="row">
-          <h3>Poem author:</h3>
-        </div>
-        <div className="row">
-          <input ref={poemAuthor} type="text" className="poemName" placeholder="Enter your / the author's name"/>
-        </div>
         
         <div className="row">
-          <h3>Poem title:</h3>
-        </div>
-        <div className="row">
-          <input ref={poemTitle} type="text" className="poemName" placeholder="Name your masterpiece"/>
+          <h1>You Onchain Bio</h1>
         </div>
 
         <div className="row">
-          <h3>The poem:</h3>
+          <h3>Your name:</h3>
         </div>
         <div className="row">
-          <textarea ref={textAreaRef} className="poemContents" placeholder="Unleash your creativity"
+          <input ref={name} type="text" className="name" placeholder="Enter your name"/>
+        </div>
+
+        <div className="row">
+          <h3>Your Bio:</h3>
+        </div>
+        <div className="row">
+          <textarea ref={bio} className="bio" placeholder="Your onchain bio"
           />
         </div>
 
         <div className="row">
-          <button onClick={registerPoem}>Register Poem</button>
-        </div>
-
-        <div className="row">
-          <button onClick={newPoemList}>Create Poem List</button>
+          <button onClick={registerBio}>Register Bio</button>
         </div>
 
       </div>

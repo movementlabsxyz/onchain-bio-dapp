@@ -1,10 +1,9 @@
 [package]
-name = 'my_todo_list'
+name = 'onchain_bio'
 version = '1.0.0'
 [dependencies.AptosFramework]
 git = 'https://github.com/aptos-labs/aptos-core.git'
 rev = 'main'
-subdir = 'aptos-move/framework/aptos-framework'
-
+subdir = 'aptos-move/framework/aptos-framework'                                                                                                                                                                                            
 [addresses]
-OnchainPoems='b8a2605c87339f77a5565fcac3fc705298fbecc6bf9f8924c4594ff40fc9244c'
+OnchainBio='ebf2f2024f14f4f2a41dd4927d19ef17704945733f8c6758a30eae59a2f1249b'

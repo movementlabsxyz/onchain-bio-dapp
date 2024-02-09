@@ -1,4 +1,4 @@
-module OnchainPoems::onchain_poems {
+module OnchainBio::onchain_poems {
 
   use std::string::{Self, String};
   use std::signer;

@@ -7,7 +7,7 @@ import { ONCHAIN_BIO } from "./constants";
 import './index.css';
 
 // with custom configuration
-const aptosConfig = new AptosConfig({ network: Network.TESTNET });
+const aptosConfig = new AptosConfig({ network: Network.CUSTOM });
 const aptos = new Aptos(aptosConfig);
 
 function App() {
